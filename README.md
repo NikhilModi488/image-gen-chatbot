@@ -52,7 +52,7 @@ It routes conversational dialog locally using **Ollama** (`llama3.2:latest`) for
 1. Clone or copy the repository files.
 2. Navigate to the project root directory:
    ```bash
-   cd C:/Users/nikhi/.gemini/antigravity/scratch/image-gen-chatbot
+   cd image-gen-chatbot
    ```
 3. Install the Python dependencies:
    ```bash
