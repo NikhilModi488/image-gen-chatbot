@@ -24,6 +24,13 @@ app.add_middleware(
 # Include API endpoints first
 app.include_router(api_router)
 
+@app.on_event("startup")
+async def startup_event():
+    import asyncio
+    from app.services.ollama_service import OllamaService
+    # Verify and pull model asynchronously so it doesn't block server startup
+    asyncio.create_task(OllamaService.ensure_model_exists("llama3.2:latest"))
+
 # Verify static directory exists and mount it at the root.
 # This must be mounted after API routes to avoid overshadowing.
 if os.path.exists(config.PUBLIC_PATH):

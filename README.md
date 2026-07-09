@@ -86,6 +86,20 @@ uvicorn main:app --reload --port 3000
 
 Once started, open **`http://localhost:3000`** in your browser to start generating!
 
+### 6. Run with Docker (Recommended / Zero-Setup) 🐳
+AetherImage includes a Docker configuration that sets up both the FastAPI application and a local Ollama container in one command. It also automatically verifies and downloads the `llama3.2:latest` model if it is not already installed!
+
+To run using Docker Compose:
+1. Make sure you have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
+2. In the project root folder, run:
+   ```bash
+   docker compose up --build
+   ```
+3. Open your browser and go to **`http://localhost:3000`**.
+
+> [!TIP]
+> **Connecting to Host's Local Ollama**: If you already have Ollama installed on your host machine (highly recommended on Windows/Mac to utilize your GPU), you can bypass running the Ollama container in Docker. Just start your host's Ollama, open `.env` and set `OLLAMA_URL=http://host.docker.internal:11434`, and run `docker compose up web`.
+
 ---
 
 ## 📖 User Guide

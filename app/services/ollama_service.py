@@ -268,3 +268,42 @@ class OllamaService:
             
         # Fallback to generate if LLM errors or is unavailable
         return {"action": "generate"}
+
+    @staticmethod
+    async def ensure_model_exists(model_name: str = "llama3.2:latest") -> bool:
+        """
+        Checks if the specified model is pulled in Ollama. If not, pulls it automatically.
+        """
+        import asyncio
+        # Wait up to 30 seconds for Ollama server to be online (crucial during docker boot)
+        for i in range(15):
+            try:
+                async with httpx.AsyncClient(timeout=2.0) as client:
+                    response = await client.get(f"{config.OLLAMA_URL}/api/tags")
+                    if response.status_code == 200:
+                        break
+            except Exception:
+                pass
+            await asyncio.sleep(2)
+
+        try:
+            async with httpx.AsyncClient(timeout=5.0) as client:
+                response = await client.get(f"{config.OLLAMA_URL}/api/tags")
+                if response.status_code == 200:
+                    models = response.json().get("models", [])
+                    if any(m.get("name") == model_name or m.get("model") == model_name for m in models):
+                        logger.info(f"Ollama model '{model_name}' is already installed.")
+                        return True
+                    
+                    logger.info(f"Ollama model '{model_name}' is missing. Initiating automatic pull...")
+                    async with httpx.AsyncClient(timeout=300.0) as pull_client:
+                        pull_resp = await pull_client.post(
+                            f"{config.OLLAMA_URL}/api/pull",
+                            json={"name": model_name, "stream": False}
+                        )
+                        if pull_resp.status_code == 200:
+                            logger.info(f"Successfully pulled Ollama model '{model_name}'.")
+                            return True
+        except Exception as e:
+            logger.warning(f"Could not automatically verify or pull Ollama model: {e}")
+        return False
