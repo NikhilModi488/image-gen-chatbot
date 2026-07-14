@@ -97,8 +97,29 @@ To run using Docker Compose:
    ```
 3. Open your browser and go to **`http://localhost:3000`**.
 
-> [!TIP]
-> **Connecting to Host's Local Ollama**: If you already have Ollama installed on your host machine (highly recommended on Windows/Mac to utilize your GPU), you can bypass running the Ollama container in Docker. Just start your host's Ollama, open `.env` and set `OLLAMA_URL=http://host.docker.internal:11434`, and run `docker compose up web`.
+### 7. Deploying to Hugging Face Spaces (Free Cloud Hosting) ☁️
+Hugging Face Spaces lets you run Docker containers for free with 16GB RAM. To host your chatbot online so anyone can access it:
+
+1. **Create a Hugging Face Account**: Go to [Hugging Face](https://huggingface.co/) and sign up.
+2. **Create a Space**:
+   - Click your profile menu and select **"New Space"**.
+   - Set a name (e.g. `aetherimage-chatbot`).
+   - Select **"Docker"** as the Space SDK.
+   - Choose **"Blank"** as the Docker template.
+   - Set the Space to **"Public"** so anyone can access it.
+3. **Upload the Code**:
+   - Clone your Hugging Face Space repository locally.
+   - Copy all the files from this project directory into the cloned Space folder.
+   - Commit and push the changes to Hugging Face:
+     ```bash
+     git add .
+     git commit -m "Deploy AetherImage chatbot with integrated Ollama"
+     git push
+     ```
+4. **Active Deployment**:
+   - Hugging Face will automatically build your Docker container.
+   - It runs the `start.sh` script to boot Ollama, download `llama3.2:latest`, and start the FastAPI web app.
+   - Once the build succeeds, your app will be live and accessible online to anyone at `https://huggingface.co/spaces/YOUR_USERNAME/YOUR_SPACE_NAME`.
 
 ---
 
