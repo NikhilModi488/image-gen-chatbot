@@ -1,7 +1,7 @@
 FROM python:3.10-slim
 
-# Install curl and system dependencies
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+# Install curl, zstd, and system dependencies
+RUN apt-get update && apt-get install -y curl zstd && rm -rf /var/lib/apt/lists/*
 
 # Install Ollama engine binary
 RUN curl -fsSL https://ollama.com/install.sh | sh
