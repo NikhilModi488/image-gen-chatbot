@@ -1,3 +1,13 @@
+---
+title: AetherImage Chatbot
+emoji: 🌌
+colorFrom: indigo
+colorTo: pink
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # 🌌 AetherImage - Text-to-Image Generation Chatbot
 
 AetherImage is a modular, asynchronous, dark-mode Text-to-Image generation chatbot. It features a sleek glassmorphic UI built using **Vanilla HTML/CSS/JS** on the frontend and a high-performance **FastAPI** backend in Python.
